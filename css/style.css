@@ -56,16 +56,16 @@ header {
 }
 
 #myMap {
-    width: 40%;
-    height: 60%;
+    width: 400px;
+    height: 300px;
     position: absolute;
-    top: 200px;
+    top: 145px;
     left: 700px;
 }
 
 .mapLayout h1 {
     margin: 10px 0;
-    top: -100px;
+    top: -50px;
     left: 10px;
     position: relative;
     color: rgb(255, 255, 255);
