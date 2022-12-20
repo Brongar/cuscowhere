@@ -56,8 +56,8 @@ header {
 }
 
 #myMap {
-    width: 600px;
-    height: 350px;
+    width: 40%;
+    height: 60%;
     position: absolute;
     top: 200px;
     left: 700px;
@@ -65,7 +65,7 @@ header {
 
 .mapLayout h1 {
     margin: 10px 0;
-    top: -90px;
+    top: -100px;
     left: 10px;
     position: relative;
     color: rgb(255, 255, 255);
@@ -115,15 +115,7 @@ header {
     margin-right: 15px
 }
 
-.lat {
-    color: rgb(250, 0, 208);
-    width: 300px;
-    height: 400px;
-    position: absolute;
-    top: 500px;
-    left: 200px;
 
-}
 
 input[type=number]:focus {
     border: 3px solid #555;
@@ -136,46 +128,54 @@ ul {
     text-decoration: none;
     font-weight: bold;
 }
+
 a {
     position: relative;
     bottom: 450px;
-    display: block;    
+    display: block;
     width: 20%;
-    padding: 5px 0;    
+    padding: 5px 0;
     text-decoration: none;
     color: #FFFFFF;
 }
+
 a:hover {
     background-color: #999999;
 }
 
 a span {
-    display: none; /* Aqui você define que todo SPAN que estiver dentro de um A estará invisível */
-    
+    display: none;
+    /* Aqui você define que todo SPAN que estiver dentro de um A estará invisível */
+
 }
 
 /* Posiçao da imagem que irá aparecer ao colocar o mouse por cima */
 a:hover span {
-    display: block; /* Tranforma o SPAN em um elemento do tipo bloco */
-    position: absolute; /* Para você poder posicionar a vontade, sem quebrar o layour em volta */
-    bottom: -69px; /* Para ficar na mesma altura do link */
-    right: 100%; /* Empurra a imagem para fora do link, ficando a lado do mesmo */
-    border: 1px #CCCCCC solid; /* Estilo extra, lembrando que você pode colocar qualquer estilo nesse elemento */
+    display: block;
+    /* Tranforma o SPAN em um elemento do tipo bloco */
+    position: absolute;
+    /* Para você poder posicionar a vontade, sem quebrar o layour em volta */
+    bottom: -69px;
+    /* Para ficar na mesma altura do link */
+    right: 100%;
+    /* Empurra a imagem para fora do link, ficando a lado do mesmo */
+    border: 1px #CCCCCC solid;
+    /* Estilo extra, lembrando que você pode colocar qualquer estilo nesse elemento */
 }
 
-.about{
+.about {
     margin-left: auto;
     margin-right: auto;
     width: 450px;
     height: 150px;
-    background-color: #1e1d20;      
+    background-color: #1e1d20;
     text-decoration: none;
     font-weight: bold;
-    
+
 }
 
-.about h1{
-    
+.about h1 {
+
     margin-left: 10px;
     margin-right: auto;
     color: white;
@@ -183,7 +183,8 @@ a:hover span {
     font-size: 20px;
     line-height: 1.5
 }
-.about p{
+
+.about p {
     margin-left: 10px;
     margin-right: auto;
     color: white;

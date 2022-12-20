@@ -26,8 +26,8 @@
 <body>
     <header>
         <div class="center">
-            <div class="logo"><img src="imagens/logo.png" /></div>           
-            
+            <div class="logo"><img src="imagens/logo.png" /></div>
+
         </div><!-- center -->
     </header>
 </body>
@@ -51,62 +51,69 @@
     <!-- Configuração Consulta -->
 
     <head>
-        
+        <!-- head mapa bing -->
+        <div id="myMap">
+
+            <div class="mapLayout">
+                <h1>Mapa Bing</h1>
+            </div>
+
+        </div>
+
+        <!-- head Consulta -->
         <div class="consulta">
             <h1> Consulta de CEP</h1>
             <label>Digite o numero do CEP</label>
-    
+
             <!-- Define a "variavel" que recebe o numero do cep -->
             <input type="number" id="cep" />
-    
+
             <!-- Chama a funçao "consultaCEP" ao clicar no botão "Consultar" -->
             <button onclick=" consultaCEP() "> Consultar </button>
-    
+
             <!-- Campo onde ficará o resultado da pesquisa -->
             <div id="resultado">
                 <div class="result">
                     <p0>Seu resultado aqui</p0>
                 </div>
             </div>
+
+
+
         </div>
-    
-    
-    
-        
-    
+
         <!-- Espaço para o script da consulta -->
         <script>
-    
             src = '';
-            let valor = document.querySelector('#cep').value;
-            console.log(valor)
+
             function consultaCEP() {
                 //Armazena o CEP informado na var 'valor'
                 let valor = document.querySelector('#cep').value;
-    
+
                 //O campo deverá ter 8 algarismos
                 if (valor.length !== 8) {
                     alert('CEP invalido!');
                     return;
                 }
-    
+
                 //Variavel que armazenará o API consumido / A variavel ${valor} é o CEP informado
                 let url = `https://viacep.com.br/ws/${valor}/json/`;
-    
+
                 //  Conversão para objeto ( irá converter os dados obtidos pela API em um obj)
                 //  A API Fetch fornece uma interface JavaScript para acessar e manipular partes do pipeline HTTP,
                 //  tais como os pedidos e respostas (através de Promises).
                 fetch(url).then(function (response) {
                     //Como resposta, será chamado a função "mostrarEndereço" com os dados já definidos
-                    response.json().then(mostrarEndereco);
-    
+                    response.json().then(mostrarEndereco).then(GetMap);
+
+
                 });
             }
-    
-    
+
+
             // Apresentar dados para o usuario.
             function mostrarEndereco(dados) {
-    
+
                 //Caso não encontre
                 if (dados.erro) {
                     resultado.innerHTML = "Não foi possivel localizar endereço!";
@@ -114,11 +121,11 @@
                 //Caso sim;
                 else {
                     let resultado = document.querySelector('#resultado');
-    
+
                     /* O innerHTML pode ser usado para receber o conteúdo de um elemento HTML
                        ou para definir um novo conteúdo para ele */
                     resultado.innerHTML =
-    
+
                         `<div class="result">
                          <p>Endereço:    ${dados.logradouro} </p>
                          <p>Complemento: ${dados.complemento}</p>
@@ -127,135 +134,91 @@
                          <p>DDD:         ${dados.ddd} </p>
                          <p>IBGE:        ${dados.ibge} </p>
                          </div>`
-    
+
                 }
-            }
-    
+            }//end mostrarEndereço
+
+            // Os dados utilizados são obtidos atraves da api do bing maps
+            function obterCoordenadas(dados) {
+
+                //Caso não encontre
+                if (dados.erro) {
+                    resultado2.innerHTML = "Não foi possivel obter coordenadas";
+                }//Caso não tenha erros;
+
+                else {
+                    //Tratar objetos para obter as coordendas
+                    var resourceSets = (dados.resourceSets[0])
+                    var resources = JSON.stringify(resourceSets);
+                    const splitado = resources.split(",")
+                    console.log(splitado[9])
+                    const latitude = parseFloat(splitado[9].replace('"coordinates":[', ''));
+                    const longitude = parseFloat(splitado[10].replace(']}', ''));
+                    console.log("lat: " + latitude)
+                    console.log("long: " + longitude)
+
+                    //Construção do mapa 
+                    var map = new window.Microsoft.Maps.Map('#myMap', {
+                        credentials: 'Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV',
+                        center: new Microsoft.Maps.Location(latitude, longitude),
+                        mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+                        zoom: 18
+
+                    });
+
+                }//end else 
+
+            }//end obterCoordenadas
+
+            function GetMap() {
+
+                // obtercoordendas via bing 
+                let valor = document.querySelector('#cep').value;
+                console.log(valor)
+
+                //testes                   
+                console.log("oi")
+
+                //  Rest service que, a partir de informações (endereço/CEP/cidade), 
+                //  fornece alguns dados não encontrado na API da viacep (Altitude/Longitude/Latitude, por ex).
+                let url2 = `http://dev.virtualearth.net/REST/v1/Locations?countryRegion=BR&postalCode=${valor}&key=Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV`
+                console.log(url2)
+
+                //Conversão para objeto
+                fetch(url2).then(function (response) {
+                    response.json().then(obterCoordenadas);
+                });
+
+            }//end GetMap
         </script>
 
-        <!-- Configurações Bing Maps -->
-        <div>
-            <script type='text/javascript'
-                src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV'
-                async defer></script>
 
 
-            <script type='text/javascript'>
-                function obterCoordenadas(dados) {
 
-                    //Caso não encontre
-                    if (dados.erro) {
-                        resultado2.innerHTML = "Não foi possivel obter coordenadas";
-                    }//Caso não tenha erros;
-                
-                    else {
-                        //Tratar objetos para obter as coordendas
-                        var resourceSets = (dados.resourceSets[0])
-                        var resources = JSON.stringify(resourceSets);
-                        const splitado = resources.split(",")
-                        const latitude = parseFloat(splitado[8].replace('"coordinates":[', ''));
-                        const longitude = parseFloat(splitado[9].replace(']}', ''));
-                        console.log(latitude)
-                        console.log("lat")
-                        
-                        var map = new Microsoft.Maps.Map('#myMap', {
-                            credentials: 'Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV',
-                            center: new Microsoft.Maps.Location(latitude, longitude),
-                            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-                            zoom: 15
-                    
-                        });
-                
-                    }//end else 
-                
-                }//end obterCoordenadas
-            </script>
-            <!-- <script type='text/javascript'>
-                function GetMap() {
-                    var map = new Microsoft.Maps.Map('#myMap');
 
-                }
-            </script>-->
+        <script type='text/javascript'
+            src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV'
+            async defer></script>
 
-            <!--  Função que será chamada no api do bing maps -->
-            <script type='text/javascript'>
-                function GetMap() {
-                    // obtercoordendas via bing 
-                    //let valor = document.querySelector('#cep').value;
-
-                    //testes
-                    
-                    console.log("oi")
-                    
-                    //  Rest service que, a partir de informações (endereço/CEP/cidade), 
-                    //  fornece alguns dados não encontrado na API da viacep (Altitude/Longitude/Latitude, por ex).
-                    let url2 = `http://dev.virtualearth.net/REST/v1/Locations?countryRegion=BR&postalCode=${valor}&key=Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV`
-                    console.log(url2)
-
-                    //Conversão para objeto
-                    fetch(url2).then(function (response) {
-                        response.json().then(obterCoordenadas);
-                    });
-                
-                    //console.log(longitude)
-                    // let coordenadas = getLatLon()
-                    //var latitude = coordenadas[0];
-                    //var longitude = coordendas[1];
-                    //console.log(latitude)
-                    //console.log("pq?????")
-                                    
-                
-                }//end GetMap
-            </script>
-           
-        </div>
-
-        <div id="myMap">
-            <div class="mapLayout">
-                <h1>Mapa Bing</h1>
-            </div>
-    
-        </div>
-
+        <!-- Bloco About-->
         <div>
             <ul>
                 <li>
-                    <a href="#">About<span> 
-                        <div class="about">                           
-                            <h1>Desenvolvidor por:</h1> 
-                            <p>Andrew Brongar e Bruna Freitas </p>
-                            <br>                          
-                            <h1>Contato:  </h1>
-                            <p>andrewbrongar@gmail.com </p>
-                            <p>brunalalalala@gmail.com  </p>                            
-                        </div>
-                    </span></a></a>
+                    <a href="#">About<span>
+                            <div class="about">
+                                <h1>Desenvolvidor por:</h1>
+                                <p>Andrew Brongar e Bruna Freitas </p>
+                                <br>
+                                <h1>Contato: </h1>
+                                <p>andrewbrongar@gmail.com </p>
+                                <p>brunalalalala@gmail.com </p>
+                            </div>
+                        </span></a></a>
                 </li>
-            </ul> 
-        </div>   
-    
-    </head>
-
-
-    <!-- old map
-    <head>
-        <h1>Bing Maps Api</h1>
-    </head>
-    <main>
-        <div class=" options">
-            <input class="search_input" placeholder="Search">
-            <button class="search_btn">Search</button>
+            </ul>
         </div>
-        <div id="map"></div>
 
-        </main>
-
-        <script src="js/maps.js"></script>
-        <script src='http://www.bing.com/api/maps/mapcontrol?callback=getMap' async></script>-->
-
-
-
-    
+    </head>
 
 </body>
 
