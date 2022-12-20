@@ -1,11 +1,5 @@
 
 
-var latitude = 0;
-var longitude = 0;
-
-
-
-
 function consultaCEP() {
     let valor = document.querySelector('#cep').value;
 
@@ -54,62 +48,36 @@ function mostrarEndereco(dados) {
     }
 }// end mostrarEndereco
 
+
+
 //Gambiarra para encontrar lat e long nos objetos inacessiveis
 function obterCoordenadas(dados) {
+
     //Caso não encontre
     if (dados.erro) {
         resultado2.innerHTML = "Não foi possivel obter coordenadas";
     }//Caso não tenha erros;
-    else {
 
+    else {
+        //Tratar objetos para obter as coordendas
         var resourceSets = (dados.resourceSets[0])
         var resources = JSON.stringify(resourceSets);
         const splitado = resources.split(",")
-        latitude = parseFloat(splitado[8].replace('"coordinates":[', ''));
-        longitude = parseFloat(splitado[9].replace(']}', ''));
-        guardarLatLong(latitude, longitude)
+        const latitude = parseFloat(splitado[8].replace('"coordinates":[', ''));
+        const longitude = parseFloat(splitado[9].replace(']}', ''));
+        
+        var map = new Microsoft.Maps.Map('#myMap', {
+            credentials: 'Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV',
+            center: new Microsoft.Maps.Location(latitude, longitude),
+            mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+            zoom: 15
+    
+        });
 
     }//end else 
 
 }//end obterCoordenadas
 
-function GetMap() {
-    // obtercoordendas via bing 
-    let valor = document.querySelector('#cep').value;
-    console.log("oi")
-
-    let url2 = `http://dev.virtualearth.net/REST/v1/Locations?countryRegion=BR&adminDistrict=RS&postalCode=${valor}&key=Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV`
-
-    fetch(url2).then(function (response) {
-        response.json().then(obterCoordenadas);
-    });
-
-    //console.log(longitude)
-    let coordenadas = getLatLon()
-    var latitude = coordenadas[0];
-    //var longitude = coordendas[1];
-    console.log(latitude)
-    console.log("pq?????")
-    var map = new Microsoft.Maps.Map('#myMap', {
-        credentials: 'Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV',
-        center: new Microsoft.Maps.Location(1, 1),
-        mapTypeId: Microsoft.Maps.MapTypeId.aerial,
-        zoom: 15
-
-    });
 
 
-}//end GetMap
 
-function guardarLatLong(lat, long) {
-    latitude = lat;
-    longitude = long;
-
-}
-
-function getLatLon() {
-    let lat = latitude,
-        long = longitude
-
-    return [lat, long]
-}
