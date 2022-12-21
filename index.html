@@ -164,7 +164,18 @@
                         mapTypeId: Microsoft.Maps.MapTypeId.aerial,
                         zoom: 18
 
+
                     });
+                    var center = map.getCenter();
+
+                    //Create custom Pushpin
+                    var pin = new Microsoft.Maps.Pushpin(center, {
+                        icon: 'imagens/pin.png',
+                        anchor: new Microsoft.Maps.Point(1, 1)
+                    });
+
+                    //Add the pushpin to the map
+                    map.entities.push(pin);
 
                 }//end else 
 
