@@ -103,6 +103,7 @@
                 //  Conversão para objeto ( irá converter os dados obtidos pela API em um obj)
                 //  A API Fetch fornece uma interface JavaScript para acessar e manipular partes do pipeline HTTP,
                 //  tais como os pedidos e respostas (através de Promises).
+                //promise -> objeto -> json
                 fetch(url).then(function (response) {
                     //Como resposta, será chamado a função "mostrarEndereço" com os dados já definidos
                     response.json().then(mostrarEndereco).then(GetMap);
@@ -194,20 +195,37 @@
 
                 // obtercoordendas via bing 
                 let valor = document.querySelector('#cep').value;
-                console.log(valor)
+                console.log("CEP informado: " + valor)
+                //Mapa ao entrar no site informa a localização atual
+                if (valor == "") {
+                    var map = new Microsoft.Maps.Map('#myMap')
+                    //Obter posição atual do usuario (Requer permissão)
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var loc = new Microsoft.Maps.Location(
+                            position.coords.latitude,
+                            position.coords.longitude);
 
-                //testes                   
-                console.log("oi")
+                        //Adicionar pushpin na localização do usuario.
+                        var pin = new Microsoft.Maps.Pushpin(loc);
+                        map.entities.push(pin);
 
-                //  Rest service que, a partir de informações (endereço/CEP/cidade), 
-                //  fornece alguns dados não encontrado na API da viacep (Altitude/Longitude/Latitude, por ex).
-                let url2 = `http://dev.virtualearth.net/REST/v1/Locations?countryRegion=BR&postalCode=${valor}&key=Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV`
-                console.log(url2)
+                        //Localização do usuario "aproximado"
+                        map.setView({ center: loc, zoom: 15 });
 
-                //Conversão para objeto
-                fetch(url2).then(function (response) {
-                    response.json().then(obterCoordenadas);
-                });
+
+                    });
+                }
+                else {
+
+                    //  Rest service que, a partir de informações (endereço/CEP/cidade), 
+                    //  fornece alguns dados não encontrado na API da viacep (Altitude/Longitude/Latitude, por ex).
+                    let url2 = `http://dev.virtualearth.net/REST/v1/Locations?countryRegion=BR&postalCode=${valor}&key=Al-Uhfb4PxqxpezghcDzpHTSWYtUUHKKdzzx4aDxh-PAYAqawEar5gQQ6uxd22wV`
+
+                    //Conversão para objeto
+                    fetch(url2).then(function (response) {
+                        response.json().then(obterCoordenadas);
+                    });
+                }
 
             }//end GetMap
         </script>
