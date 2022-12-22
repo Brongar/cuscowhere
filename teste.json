@@ -1,0 +1,57 @@
+{
+    "authenticationResultCode": "ValidCredentials",
+    "brandLogoUri": "http:\/\/dev.virtualearth.net\/Branding\/logo_powered_by.png",
+    "copyright": "Copyright © 2022 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.",
+    "resourceSets": [
+        {
+            "estimatedTotal": 1,
+            "resources": [
+                {
+                    "__type": "Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1",
+                    "bbox": [
+                        -32.10337291044177,
+                        -52.191122795978515,
+                        -32.095647475300417,
+                        -52.17896387394336
+                    ],
+                    "name": "96215-220, Brazil",
+                    "point": {
+                        "type": "Point",
+                        "coordinates": [
+                            -32.09951019,
+                            -52.18504333
+                        ]
+                    },
+                    "address": {
+                        "adminDistrict": "RS",
+                        "countryRegion": "Brazil",
+                        "formattedAddress": "96215-220, Brazil",
+                        "locality": "Rio Grande",
+                        "postalCode": "96215-220"
+                    },
+                    "confidence": "High",
+                    "entityType": "Postcode1",
+                    "geocodePoints": [
+                        {
+                            "type": "Point",
+                            "coordinates": [
+                                -32.09951019,
+                                -52.18504333
+                            ],
+                            "calculationMethod": "Rooftop",
+                            "usageTypes": [
+                                "Display"
+                            ]
+                        }
+                    ],
+                    "matchCodes": [
+                        "Good"
+                    ]
+                }
+            ]
+        }
+    ],
+    "statusCode": 200,
+    "statusDescription": "OK",
+    "traceId": "9b004cb1543c458db04a767ad920d379|BN00005015|0.0.0.1|Ref A: 058F0BD4CD6C4AE99ED3A105CE6ACCB2 Ref B: BN3EDGE0207 Ref C: 2022-12-22T14:53:55Z"
+}

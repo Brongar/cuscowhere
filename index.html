@@ -148,6 +148,12 @@
                 }//Caso não tenha erros;
 
                 else {
+
+                    console.log(dados['resourceSets'][0]['resources'][0]['point']['coordinates'])
+                    var latitude = dados['resourceSets'][0]['resources'][0]['point']['coordinates'][0]
+                    var longitude = dados['resourceSets'][0]['resources'][0]['point']['coordinates'][1]
+
+                    /*
                     //Tratar objetos para obter as coordendas
                     var resourceSets = (dados.resourceSets[0])
                     var resources = JSON.stringify(resourceSets);
@@ -155,6 +161,8 @@
                     console.log(splitado[9])
                     const latitude = parseFloat(splitado[9].replace('"coordinates":[', ''));
                     const longitude = parseFloat(splitado[10].replace(']}', ''));
+                    */
+
                     console.log("lat: " + latitude)
                     console.log("long: " + longitude)
 
