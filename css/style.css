@@ -49,7 +49,7 @@ header {
 
 .consulta {
     position: relative;
-    top: 20px;
+    top: 5%;
     left: 80px;
     width: 600px;
     height: 400px
@@ -59,14 +59,13 @@ header {
     width: 400px;
     height: 300px;
     position: absolute;
-    top: 145px;
+    top: 26%;
     left: 60%;
 }
 
 .mapLayout h1 {
     margin: 10px 0;
     top: -50px;
-    left: 10px;
     position: relative;
     color: rgb(255, 255, 255);
     font-size: 30px;
