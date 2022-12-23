@@ -1,0 +1,8 @@
+O site está hospedado no endereço:  https://brongar.github.io/cuscowhere/#
+Para executar de forma remota, basta abrir o arquivo index.html no seu navegador
+
+Há na pasta docs um fluxograma de processos do projeto e o relatorio.
+
+Atenciosamente,
+
+Andrew Flores Brongar e Bruna dos Santos Freitas
